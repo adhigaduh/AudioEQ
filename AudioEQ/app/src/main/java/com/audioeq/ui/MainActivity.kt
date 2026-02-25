@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
             audioService = binder.getService()
             isBound = true
             
-            audioService?.onProcessingStateChanged = { isProcessing ->
+            audioService?.onProcessingStateChanged = { state ->
                 lifecycleScope.launch {
-                    viewModel.setProcessingState(isProcessing)
+                    viewModel.setProcessingState(state == com.audioeq.service.ProcessingState.RUNNING)
                 }
             }
         }

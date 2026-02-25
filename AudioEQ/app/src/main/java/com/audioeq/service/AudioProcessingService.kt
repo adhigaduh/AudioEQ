@@ -1,5 +1,6 @@
 package com.audioeq.service
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -28,6 +29,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+enum class ProcessingState {
+    IDLE,
+    STARTING,
+    RUNNING,
+    STOPPING,
+    ERROR
+}
 
 class AudioProcessingService : Service() {
     
@@ -40,11 +50,17 @@ class AudioProcessingService : Service() {
     private var audioPipeline: AudioPipeline? = null
     private var equalizer: ParametricEqualizer? = null
     
-    private var isProcessing = false
+    private var _processingState = ProcessingState.IDLE
+    val processingState: ProcessingState get() = _processingState
+    
+    private var _errorMessage: String? = null
+    val errorMessage: String? get() = _errorMessage
+    
     private var resultCode: Int = 0
     private var resultData: Intent? = null
     
-    var onProcessingStateChanged: ((Boolean) -> Unit)? = null
+    var onProcessingStateChanged: ((ProcessingState) -> Unit)? = null
+    var onError: ((String) -> Unit)? = null
     
     inner class LocalBinder : Binder() {
         fun getService(): AudioProcessingService = this@AudioProcessingService
@@ -61,7 +77,12 @@ class AudioProcessingService : Service() {
         intent?.let {
             if (it.hasExtra(EXTRA_RESULT_CODE)) {
                 resultCode = it.getIntExtra(EXTRA_RESULT_CODE, 0)
-                resultData = it.getParcelableExtra(EXTRA_RESULT_DATA)
+                resultData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    it.getParcelableExtra(EXTRA_RESULT_DATA, Intent::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    it.getParcelableExtra(EXTRA_RESULT_DATA)
+                }
             }
             
             when (it.action) {
@@ -83,8 +104,24 @@ class AudioProcessingService : Service() {
         this.resultData = data
     }
     
+    private fun setState(newState: ProcessingState) {
+        _processingState = newState
+        onProcessingStateChanged?.invoke(newState)
+    }
+    
+    private fun setError(message: String) {
+        _errorMessage = message
+        setState(ProcessingState.ERROR)
+        onError?.invoke(message)
+    }
+    
     private fun startProcessing() {
-        if (isProcessing) return
+        if (_processingState != ProcessingState.IDLE) {
+            Log.w(TAG, "Cannot start: current state is $_processingState")
+            return
+        }
+        
+        setState(ProcessingState.STARTING)
         
         val notification = createNotification()
         
@@ -105,12 +142,22 @@ class AudioProcessingService : Service() {
                 initializeAudioComponents()
                 startAudioProcessing()
                 
-                isProcessing = true
-                onProcessingStateChanged?.invoke(true)
+                withContext(Dispatchers.Main) {
+                    setState(ProcessingState.RUNNING)
+                }
                 
+            } catch (e: SecurityException) {
+                Log.e(TAG, "Security exception", e)
+                withContext(Dispatchers.Main) {
+                    setError("Permission denied: ${e.message}")
+                    stopSelf()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to start processing", e)
-                stopSelf()
+                withContext(Dispatchers.Main) {
+                    setError("Failed to start: ${e.message}")
+                    stopSelf()
+                }
             }
         }
     }
@@ -125,8 +172,10 @@ class AudioProcessingService : Service() {
         
         mediaProjection?.registerCallback(object : MediaProjection.Callback() {
             override fun onStop() {
-                Log.d(TAG, "Media projection stopped")
-                stopProcessing()
+                Log.d(TAG, "Media projection stopped by user")
+                serviceScope.launch {
+                    stopProcessing()
+                }
             }
         }, null)
     }
@@ -153,14 +202,17 @@ class AudioProcessingService : Service() {
         audioOutput?.start()
         
         audioPipeline?.onOutputReady = { buffer, count ->
-            val output = audioOutput ?: return@AudioPipeline
-            if (count > 0) {
+            val output = audioOutput
+            if (output != null && count > 0) {
                 output.write(buffer.copyOf(count))
             }
         }
         
         audioPipeline?.onError = { error ->
             Log.e(TAG, "Pipeline error", error)
+            serviceScope.launch {
+                setError("Audio processing error: ${error.message}")
+            }
         }
         
         audioPipeline?.start()
@@ -169,11 +221,19 @@ class AudioProcessingService : Service() {
             audioPipeline?.writeInput(buffer)
         }
         
-        audioCapture?.startCapture()
+        val captureStarted = audioCapture?.startCapture() ?: false
+        if (!captureStarted) {
+            throw RuntimeException("Failed to start audio capture")
+        }
     }
     
     fun stopProcessing() {
-        if (!isProcessing) return
+        if (_processingState == ProcessingState.IDLE || 
+            _processingState == ProcessingState.STOPPING) {
+            return
+        }
+        
+        setState(ProcessingState.STOPPING)
         
         audioCapture?.stopCapture()
         audioPipeline?.stop()
@@ -186,8 +246,8 @@ class AudioProcessingService : Service() {
         audioPipeline = null
         audioOutput = null
         
-        isProcessing = false
-        onProcessingStateChanged?.invoke(false)
+        _errorMessage = null
+        setState(ProcessingState.IDLE)
         
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
@@ -209,9 +269,13 @@ class AudioProcessingService : Service() {
         equalizer?.setBandQ(bandIndex, q)
     }
     
+    fun setEqualizerEnabled(enabled: Boolean) {
+        equalizer?.isEnabled = enabled
+    }
+    
     fun getEqualizerBands() = equalizer?.getBands() ?: emptyList()
     
-    fun isProcessing(): Boolean = isProcessing
+    fun isProcessing(): Boolean = _processingState == ProcessingState.RUNNING
     
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
@@ -240,6 +304,7 @@ class AudioProcessingService : Service() {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .build()
     }
     

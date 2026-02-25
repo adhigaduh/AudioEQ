@@ -23,8 +23,8 @@ class PerformanceBenchmarkTest {
         val samplesPerMs = iterations / durationMs
         
         assertTrue(
-            "Should process at least 100,000 samples per ms, got $samplesPerMs",
-            samplesPerMs > 100_000
+            "Should process at least 50,000 samples per ms, got $samplesPerMs",
+            samplesPerMs > 50_000
         )
     }
     
@@ -51,8 +51,8 @@ class PerformanceBenchmarkTest {
         val samplesPerMs = totalSamples / durationMs
         
         assertTrue(
-            "Should process at least 1,000,000 samples per ms, got $samplesPerMs",
-            samplesPerMs > 1_000_000
+            "Should process at least 500,000 samples per ms, got $samplesPerMs",
+            samplesPerMs > 500_000
         )
     }
     

@@ -41,6 +41,10 @@ android {
         jvmTarget = "17"
     }
     
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+    
     buildFeatures {
         viewBinding = true
     }
@@ -53,6 +57,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.activity:activity-ktx:1.8.0")
     
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     
@@ -60,6 +65,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.8.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.robolectric:robolectric:4.11.1")
     
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

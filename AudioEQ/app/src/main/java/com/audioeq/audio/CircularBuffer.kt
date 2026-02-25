@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.min
 
 class CircularBuffer(
-    private val capacity: Int
+    val capacity: Int
 ) {
     private val buffer = ShortArray(capacity)
     private var writeIndex = 0

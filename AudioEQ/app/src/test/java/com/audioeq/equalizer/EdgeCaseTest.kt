@@ -135,7 +135,7 @@ class EdgeCaseTest {
         
         equalizer.processBuffer(inputBuffer, outputBuffer)
         
-        assertTrue(outputBuffer[0].isFinite())
+        assertTrue(outputBuffer[0] in Short.MIN_VALUE..Short.MAX_VALUE)
     }
     
     @Test

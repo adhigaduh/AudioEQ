@@ -126,7 +126,7 @@ class EqualizerView @JvmOverloads constructor(
         val bandWidth = width / (bands.size - 1)
         val bandIndex = ((x - padding) / bandWidth).toInt().coerceIn(0, bands.size - 1)
         
-        val normalizedGain = 1 - ((y - padding) / height).coerce(0f, 1f)
+        val normalizedGain = 1 - ((y - padding) / height).coerceIn(0f, 1f)
         val gain = minGain + normalizedGain * (maxGain - minGain)
         
         when (event.action) {

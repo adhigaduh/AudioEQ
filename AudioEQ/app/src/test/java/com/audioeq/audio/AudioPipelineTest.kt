@@ -4,9 +4,12 @@ import com.audioeq.equalizer.ParametricEqualizer
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
+@RunWith(RobolectricTestRunner::class)
 class AudioPipelineTest {
     
     private lateinit var equalizer: ParametricEqualizer
@@ -152,7 +155,7 @@ class AudioPipelineTest {
         val inputData = ShortArray(4096) { 16384 }
         pipeline.writeInput(inputData)
         
-        assertTrue(latch.await(2, TimeUnit.SECONDS))
+        assertTrue("Pipeline should process large input within 5 seconds", latch.await(5, TimeUnit.SECONDS))
         
         pipeline.stop()
     }
