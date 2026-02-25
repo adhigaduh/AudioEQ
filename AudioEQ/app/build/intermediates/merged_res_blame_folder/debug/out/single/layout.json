@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-mergeDebugResources-35:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-main-38:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "com.audioeq.app-mergeDebugResources-35:/layout/activity_main.xml",
+        "source": "com.audioeq.app-main-38:/layout/activity_main.xml"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-merged_res-36:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-main-38:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-merged_res-36:\\drawable_ic_notification.xml.flat",
+        "source": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-main-38:\\drawable\\ic_notification.xml"
+    },
+    {
+        "merged": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-merged_res-36:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-main-38:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-merged_res-36:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\adhig\\.gradle\\daemon\\8.4\\com.audioeq.app-main-38:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "com.audioeq.app-merged_res-36:/layout_activity_main.xml.flat",
+        "source": "com.audioeq.app-main-38:/layout/activity_main.xml"
+    }
+]

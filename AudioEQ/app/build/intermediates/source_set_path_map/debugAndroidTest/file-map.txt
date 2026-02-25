@@ -1,0 +1,6 @@
+com.audioeq.test.app-jetified-annotation-experimental-1.3.0-0 C:\Users\adhig\.gradle\caches\transforms-3\60731bf013ecbbddfc38db45a03e876e\transformed\jetified-annotation-experimental-1.3.0\res
+com.audioeq.test.app-jetified-core-1.5.0-1 C:\Users\adhig\.gradle\caches\transforms-3\aea1066a90f407e84988ec3b21393927\transformed\jetified-core-1.5.0\res
+com.audioeq.test.app-androidTest-2 C:\Users\adhig\projects\SetUpFeb2026\AudioEQ\app\build\generated\res\resValues\androidTest\debug
+com.audioeq.test.app-mergeDebugAndroidTestResources-3 C:\Users\adhig\projects\SetUpFeb2026\AudioEQ\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.audioeq.test.app-mergeDebugAndroidTestResources-4 C:\Users\adhig\projects\SetUpFeb2026\AudioEQ\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.audioeq.test.app-merged_res-5 C:\Users\adhig\projects\SetUpFeb2026\AudioEQ\app\build\intermediates\merged_res\debugAndroidTest

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.audioeq.audio.CircularBufferTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-02-25T14:40:20" hostname="LENOVO2024" time="0.017">
+  <properties/>
+  <testcase name="read clears data from buffer" classname="com.audioeq.audio.CircularBufferTest" time="0.001"/>
+  <testcase name="concurrent access is thread safe" classname="com.audioeq.audio.CircularBufferTest" time="0.01"/>
+  <testcase name="read from empty buffer returns zero" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="buffer becomes full" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="circular wraparound works" classname="com.audioeq.audio.CircularBufferTest" time="0.003"/>
+  <testcase name="write to full buffer returns zero" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="skip advances read position" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="new buffer is empty" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="read returns written data" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="write returns number of items written" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="partial write works correctly" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="clear empties buffer" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="partial read works correctly" classname="com.audioeq.audio.CircularBufferTest" time="0.001"/>
+  <testcase name="peek returns correct data" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <testcase name="peek does not remove data" classname="com.audioeq.audio.CircularBufferTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[java.lang.instrument.IllegalClassFormatException: Error while instrumenting com/audioeq/audio/CircularBuffer with JaCoCo 0.8.8.202204050719/5dcf34a.
+	at org.jacoco.agent.rt.internal_b6258fc.CoverageTransformer.transform(CoverageTransformer.java:94)
+	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:244)
+	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
+	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:541)
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1017)
+	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.defineClass(BuiltinClassLoader.java:862)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.findClassOnClassPathOrNull(BuiltinClassLoader.java:760)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(BuiltinClassLoader.java:681)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:639)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
+	at java.base/java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.base/java.lang.Class.privateGetDeclaredMethods(Class.java:3402)
+	at java.base/java.lang.Class.getDeclaredMethods(Class.java:2504)
+	at org.junit.internal.MethodSorter.getDeclaredMethods(MethodSorter.java:54)
+	at org.junit.runners.model.TestClass.scanAnnotatedMembers(TestClass.java:65)
+	at org.junit.runners.model.TestClass.<init>(TestClass.java:57)
+	at org.junit.runners.JUnit4.<init>(JUnit4.java:23)
+	at org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:10)
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)
+	at org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:37)
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:70)
+	at org.junit.internal.requests.ClassRequest.createRunner(ClassRequest.java:28)
+	at org.junit.internal.requests.MemoizingRequest.getRunner(MemoizingRequest.java:19)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:77)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:40)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:60)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:52)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy2/jdk.proxy2.$Proxy5.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:176)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:113)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:65)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+Caused by: java.io.IOException: Error while instrumenting com/audioeq/audio/CircularBuffer with JaCoCo 0.8.8.202204050719/5dcf34a.
+	at org.jacoco.agent.rt.internal_b6258fc.core.instr.Instrumenter.instrumentError(Instrumenter.java:161)
+	at org.jacoco.agent.rt.internal_b6258fc.core.instr.Instrumenter.instrument(Instrumenter.java:111)
+	at org.jacoco.agent.rt.internal_b6258fc.CoverageTransformer.transform(CoverageTransformer.java:92)
+	... 48 more
+Caused by: java.lang.IllegalStateException: Cannot process instrumented class com/audioeq/audio/CircularBuffer. Please supply original non-instrumented classes.
+	at org.jacoco.agent.rt.internal_b6258fc.core.internal.instr.InstrSupport.assertNotInstrumented(InstrSupport.java:238)
+	at org.jacoco.agent.rt.internal_b6258fc.core.internal.instr.ClassInstrumenter.visitMethod(ClassInstrumenter.java:65)
+	at org.jacoco.agent.rt.internal_b6258fc.core.internal.flow.ClassProbesAdapter.visitMethod(ClassProbesAdapter.java:66)
+	at org.jacoco.agent.rt.internal_b6258fc.asm.ClassReader.readMethod(ClassReader.java:1353)
+	at org.jacoco.agent.rt.internal_b6258fc.asm.ClassReader.accept(ClassReader.java:744)
+	at org.jacoco.agent.rt.internal_b6258fc.asm.ClassReader.accept(ClassReader.java:424)
+	at org.jacoco.agent.rt.internal_b6258fc.core.instr.Instrumenter.instrument(Instrumenter.java:91)
+	at org.jacoco.agent.rt.internal_b6258fc.core.instr.Instrumenter.instrument(Instrumenter.java:109)
+	... 49 more
+]]></system-err>
+</testsuite>

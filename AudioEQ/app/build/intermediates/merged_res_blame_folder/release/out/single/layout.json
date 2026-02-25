@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "com.audioeq.app-mergeReleaseResources-35:/layout/activity_main.xml",
+        "source": "com.audioeq.app-main-37:/layout/activity_main.xml"
+    }
+]

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.audioeq.equalizer.FrequencyResponseTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-02-25T14:40:20" hostname="LENOVO2024" time="0.027">
+  <properties/>
+  <testcase name="peaking filter boosts at center frequency" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.004"/>
+  <testcase name="negative gain attenuates signal" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.003"/>
+  <testcase name="low shelf boosts low frequencies" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.003"/>
+  <testcase name="Q factor affects bandwidth" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.005"/>
+  <testcase name="high pass attenuates low frequencies" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.005"/>
+  <testcase name="high shelf boosts high frequencies" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.002"/>
+  <testcase name="notch filter attenuates center frequency" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.001"/>
+  <testcase name="low pass attenuates high frequencies" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.001"/>
+  <testcase name="peaking filter unity gain far from center" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.001"/>
+  <testcase name="notch filter passes other frequencies" classname="com.audioeq.equalizer.FrequencyResponseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

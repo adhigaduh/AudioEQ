@@ -10,6 +10,7 @@ import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -95,6 +96,14 @@ class MainActivity : AppCompatActivity() {
         }
         
         val presetNames = ParametricEqualizer.ALL_PRESETS.map { it.name }.toTypedArray()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, presetNames)
+        binding.spinnerPreset.setAdapter(adapter)
+        
+        // Make it behave like a dropdown
+        binding.spinnerPreset.setOnClickListener {
+            binding.spinnerPreset.showDropDown()
+        }
+        
         binding.spinnerPreset.setOnItemClickListener { _, _, position, _ ->
             val preset = ParametricEqualizer.ALL_PRESETS[position]
             audioService?.setEqualizerPreset(preset)

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.audioeq.equalizer.EdgeCaseTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-02-25T14:40:20" hostname="LENOVO2024" time="0.012">
+  <properties/>
+  <testcase name="equalizer handles rapid band changes" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.001"/>
+  <testcase name="filter handles very low Q" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles negative input" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles very high frequency" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles very low frequency" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="equalizer handles empty buffer" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles maximum input" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles extreme gain" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="equalizer handles rapid preset changes" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.001"/>
+  <testcase name="filter handles extreme Q" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles DC offset" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter handles alternating input" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="equalizer handles single sample buffer" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <testcase name="filter remains stable after many samples" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.006"/>
+  <testcase name="filter handles impulse input" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.001"/>
+  <testcase name="filter handles zero input" classname="com.audioeq.equalizer.EdgeCaseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
