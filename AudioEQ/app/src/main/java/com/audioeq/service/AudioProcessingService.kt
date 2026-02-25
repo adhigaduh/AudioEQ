@@ -19,6 +19,7 @@ import androidx.core.app.ServiceCompat
 import com.audioeq.R
 import com.audioeq.audio.AudioCapture
 import com.audioeq.audio.AudioOutput
+import com.audioeq.audio.AudioPipeline
 import com.audioeq.equalizer.EqualizerPreset
 import com.audioeq.equalizer.ParametricEqualizer
 import com.audioeq.ui.MainActivity
@@ -36,6 +37,7 @@ class AudioProcessingService : Service() {
     private var mediaProjection: MediaProjection? = null
     private var audioCapture: AudioCapture? = null
     private var audioOutput: AudioOutput? = null
+    private var audioPipeline: AudioPipeline? = null
     private var equalizer: ParametricEqualizer? = null
     
     private var isProcessing = false
@@ -134,6 +136,8 @@ class AudioProcessingService : Service() {
         
         equalizer = ParametricEqualizer(sampleRate.toFloat())
         
+        audioPipeline = AudioPipeline(equalizer!!, 8192)
+        
         audioCapture = AudioCapture(
             mediaProjection = mediaProjection!!,
             sampleRate = sampleRate
@@ -148,13 +152,21 @@ class AudioProcessingService : Service() {
     private fun startAudioProcessing() {
         audioOutput?.start()
         
+        audioPipeline?.onOutputReady = { buffer, count ->
+            val output = audioOutput ?: return@AudioPipeline
+            if (count > 0) {
+                output.write(buffer.copyOf(count))
+            }
+        }
+        
+        audioPipeline?.onError = { error ->
+            Log.e(TAG, "Pipeline error", error)
+        }
+        
+        audioPipeline?.start()
+        
         audioCapture?.onAudioBufferReady = { buffer ->
-            val eq = equalizer ?: return@AudioCapture
-            val output = audioOutput ?: return@AudioCapture
-            
-            val processedBuffer = ShortArray(buffer.size)
-            eq.processBuffer(buffer, processedBuffer)
-            output.write(processedBuffer)
+            audioPipeline?.writeInput(buffer)
         }
         
         audioCapture?.startCapture()
@@ -164,12 +176,14 @@ class AudioProcessingService : Service() {
         if (!isProcessing) return
         
         audioCapture?.stopCapture()
+        audioPipeline?.stop()
         audioOutput?.stop()
         
         mediaProjection?.stop()
         mediaProjection = null
         
         audioCapture = null
+        audioPipeline = null
         audioOutput = null
         
         isProcessing = false
