@@ -5,6 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.os.Build
 import android.util.Log
 
 class AudioOutput(
@@ -70,6 +71,11 @@ class AudioOutput(
         
         audioTrack?.apply {
             try {
+                // Flush any remaining audio data
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    flush()
+                }
+                pause()
                 stop()
                 release()
             } catch (e: Exception) {
@@ -79,6 +85,10 @@ class AudioOutput(
         audioTrack = null
         
         Log.d(TAG, "Audio output stopped")
+    }
+    
+    fun flush() {
+        audioTrack?.flush()
     }
     
     fun isPlaying(): Boolean = isPlaying && audioTrack?.playState == AudioTrack.PLAYSTATE_PLAYING

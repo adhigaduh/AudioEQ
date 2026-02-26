@@ -29,11 +29,12 @@ class AudioCapture(
         if (isCapturing) return true
         
         try {
-            val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection)
-                .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
-                .addMatchingUsage(AudioAttributes.USAGE_GAME)
-                .addMatchingUsage(AudioAttributes.USAGE_UNKNOWN)
-                .build()
+        val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection)
+            .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
+            .addMatchingUsage(AudioAttributes.USAGE_GAME)
+            // Remove USAGE_MEDIA to prevent feedback loop
+            .addMatchingUsage(AudioAttributes.USAGE_UNKNOWN)
+            .build()
             
             audioRecord = AudioRecord.Builder()
                 .setAudioPlaybackCaptureConfig(config)

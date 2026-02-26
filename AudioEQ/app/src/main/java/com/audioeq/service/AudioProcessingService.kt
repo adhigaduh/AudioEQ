@@ -235,13 +235,21 @@ class AudioProcessingService : Service() {
         
         setState(ProcessingState.STOPPING)
         
+        // Stop capture first to break feedback loop
         audioCapture?.stopCapture()
+        
+        // Wait for processing to complete
+        Thread.sleep(100)
+        
+        // Stop other components
         audioPipeline?.stop()
         audioOutput?.stop()
         
+        // Ensure MediaProjection is completely stopped
         mediaProjection?.stop()
         mediaProjection = null
         
+        // Clear all references to prevent memory leaks
         audioCapture = null
         audioPipeline = null
         audioOutput = null

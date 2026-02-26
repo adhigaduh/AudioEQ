@@ -40,9 +40,19 @@ class AudioPipeline(
     fun stop() {
         if (!isProcessing.getAndSet(false)) return
         
+        // Signal to processing thread to stop
+        processingThread?.interrupt()
+        
+        // Wait for thread to finish
         processingThread?.join(1000)
         processingThread = null
+        
+        // Clear all buffers completely
         inputBuffer.clear()
+        processingBuffer.fill(0)
+        
+        // Flush audio output to prevent hanging samples (if available)
+        audioOutput?.flush()
         
         Log.d(TAG, "Audio pipeline stopped")
     }
