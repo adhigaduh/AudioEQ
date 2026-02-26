@@ -238,23 +238,21 @@ class AudioProcessingService : Service() {
         // Stop capture first to break feedback loop
         audioCapture?.stopCapture()
         
-        // Wait for processing to complete
-        Thread.sleep(100)
+        // Wait for capture to fully stop and pipeline to empty
+        var bufferEmptyCount = 0
+        while (bufferEmptyCount < 20 && (audioPipeline?.bufferLevel ?: 0) > 0) {
+            Thread.sleep(50)
+            bufferEmptyCount++
+        }
         
-        // Stop other components
+        // Stop all components with proper cleanup
         audioPipeline?.stop()
-        audioOutput?.stop()
+        audioOutput?.stopProcessing() // Use new method with proper cleanup
+        audioOutput?.resetVolume() // Reset volume to default
         
         // Ensure MediaProjection is completely stopped
         mediaProjection?.stop()
         mediaProjection = null
-        
-        // Clear all references to prevent memory leaks
-        audioCapture = null
-        audioPipeline = null
-        audioOutput = null
-        
-        _errorMessage = null
         setState(ProcessingState.IDLE)
         
         stopForeground(STOP_FOREGROUND_REMOVE)

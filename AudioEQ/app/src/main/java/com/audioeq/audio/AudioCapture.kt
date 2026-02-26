@@ -56,10 +56,7 @@ class AudioCapture(
             audioRecord?.startRecording()
             isCapturing = true
             
-            captureThread = Thread {
-                captureLoop()
-            }.apply { start() }
-            
+            startCaptureThread()
             Log.d(TAG, "Audio capture started")
             return true
             
@@ -67,39 +64,62 @@ class AudioCapture(
             Log.e(TAG, "Security exception during capture setup", e)
             return false
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to start capture", e)
+            Log.e(TAG, "Failed to start audio capture", e)
             return false
         }
     }
     
     private fun captureLoop() {
         val buffer = ShortArray(bufferSize / 2)
+        var readFailures = 0
         
         while (isCapturing && audioRecord != null) {
             val result = audioRecord?.read(buffer, 0, buffer.size) ?: -1
             
-            if (result > 0) {
+            if (result > 0 && isCapturing) { // Double-check isCapturing
                 val audioData = buffer.copyOf(result)
                 onAudioBufferReady?.invoke(audioData)
             } else if (result < 0) {
                 Log.e(TAG, "AudioRecord read error: $result")
+                readFailures++
+                if (readFailures > 10) {
+                    Log.e(TAG, "Too many read failures, stopping capture")
+                    isCapturing = false
+                    break
+                }
             }
         }
+        
+        Log.d(TAG, "Audio capture loop ended with $readFailures read failures")
+    }
+    
+    private fun startCaptureThread() {
+        }
+    }
+    
+    private fun startCaptureThread() {
+        captureThread = Thread { this.captureLoop() }
+        captureThread.start()
+        Log.d(TAG, "Audio capture thread started")
     }
     
     fun stopCapture() {
         isCapturing = false
         
+        // Wait for capture thread to finish
         captureThread?.join(1000)
         captureThread = null
         
-        audioRecord?.apply {
-            try {
-                stop()
-                release()
-            } catch (e: Exception) {
-                Log.e(TAG, "Error stopping AudioRecord", e)
-            }
+        // Stop and release audio record
+        audioRecord?.stop()
+        audioRecord?.release()
+        audioRecord = null
+        
+        // Clean up callbacks
+        onAudioBufferReady = null
+        
+        Log.d(TAG, "Audio capture stopped")
+    }
         }
         audioRecord = null
         

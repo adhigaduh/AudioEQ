@@ -16,10 +16,35 @@ class AudioOutput(
 ) {
     private var audioTrack: AudioTrack? = null
     private var isPlaying = false
+    private fun setVolume(volume: Float) {
+        currentVolume = volume
+        audioTrack?.setVolume(volume)
+    }
     
-    private val bufferSize: Int by lazy {
-        val minSize = AudioTrack.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-        maxOf(minSize * 2, 4096)
+    fun resetVolume() {
+        setVolume(1.0f)
+    }
+    
+    fun isPlaying(): Boolean = isPlaying && audioTrack?.playState == AudioTrack.PLAYSTATE_PLAYING
+    
+    private fun stopProcessing() {
+        isPlaying = false
+        flush() // Flush all remaining audio data
+        currentVolume = 1.0f // Reset to default volume
+    }
+    
+    fun resetVolume() {
+        setVolume(1.0f)
+    }
+    
+    fun stopProcessing() {
+        isPlaying = false
+        flush() // Flush all remaining audio data
+        currentVolume = 1.0f // Reset to default volume
+    }
+    
+    companion object {
+        private const val TAG = "AudioOutput"
     }
     
     fun start(): Boolean {
@@ -85,10 +110,17 @@ class AudioOutput(
         audioTrack = null
         
         Log.d(TAG, "Audio output stopped")
-    }
+        }
     
     fun flush() {
-        audioTrack?.flush()
+        try {
+            audioTrack?.flush()
+            pause()
+            stop()
+            release()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error flushing AudioTrack", e)
+        }
     }
     
     fun isPlaying(): Boolean = isPlaying && audioTrack?.playState == AudioTrack.PLAYSTATE_PLAYING
